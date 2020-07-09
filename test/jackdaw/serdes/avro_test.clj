@@ -655,8 +655,8 @@
     (is (= (String. (round-trip serde "bananas" (.getBytes "hello")))
            "hello"))
 
-    (is (thrown? java.lang.IllegalArgumentException
-                 (round-trip serde "bananas" {:hello 3})))))
+    (is (= (round-trip serde "bananas" {:hello 3})
+           {(Utf8. "hello") 3}))))
 
 
 (deftest decoupled-reader-simple-string-schema

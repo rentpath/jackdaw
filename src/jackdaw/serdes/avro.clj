@@ -63,7 +63,8 @@
             [clojure.data]
             [clojure.string :as str]
             [jackdaw.serdes.avro.schema-registry :as registry]
-            [jackdaw.serdes.fn :as fn])
+            [jackdaw.serdes.fn :as fn]
+            [clojure.walk :as walk])
   (:import [io.confluent.kafka.serializers
             KafkaAvroSerializer KafkaAvroDeserializer]
            java.lang.CharSequence
@@ -79,7 +80,8 @@
             GenericContainer GenericData$Array GenericData$EnumSymbol
             GenericData$Record GenericRecordBuilder]
            [org.apache.kafka.common.serialization
-            Serializer Deserializer Serdes]))
+            Serializer Deserializer Serdes]
+           (org.apache.avro.util Utf8)))
 
 (set! *warn-on-reflection* true)
 
@@ -263,8 +265,12 @@
     true)
   (match-avro? [_ x]
     true)
-  (avro->clj [_ x] x)
-  (clj->avro [_ x path] x))
+  (avro->clj [_ x]
+    (if (instance? Utf8 x) (.toString x) x))
+  (clj->avro [_ x path]
+    (if (map? x)
+      (walk/stringify-keys x)
+      x)))
 
 ;; UUID :disapprove:
 
