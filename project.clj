@@ -11,8 +11,7 @@
                  ;; off with the kafka version.
                  ;; See https://docs.confluent.io/current/release-notes.html
 
-                 [io.confluent/kafka-schema-registry-client "5.5.0"
-                  :exclusions [com.fasterxml.jackson.core/jackson-databind]]
+                 [io.confluent/kafka-schema-registry-client "5.5.0"]
                  [io.confluent/kafka-avro-serializer "5.5.0"]
                  [org.apache.kafka/kafka-clients "2.5.0"]
                  [org.apache.kafka/kafka-streams "2.5.0"]
