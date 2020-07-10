@@ -1,4 +1,4 @@
-(defproject com.rentpath/jackdaw "0.7.5-SNAPSHOT"
+(defproject com.rentpath/jackdaw "0.8.0"
   :description "A Clojure library for the Apache Kafka distributed streaming platform."
   :scm {:name "git" :url "https://github.com/rentpath/jackdaw"}
   :url "https://github.com/rentpath/jackdaw/"
