@@ -1,8 +1,10 @@
-(defproject rentpath/jackdaw "_"
+(defproject rentpath/jackdaw "0.7.5-SNAPSHOT"
   :description "A Clojure library for the Apache Kafka distributed streaming platform."
   :scm {:name "git" :url "https://github.com/rentpath/jackdaw"}
   :url "https://github.com/rentpath/jackdaw/"
   :repositories [["confluent" {:url "https://packages.confluent.io/maven/"}]]
+  :license      {:name "BSD 3-clause"
+                 :url  "http://opensource.org/licenses/BSD-3-Clause"}
   :dependencies [[aleph "0.4.6"]
                  [clj-time "0.15.1"]
                  [danlentz/clj-uuid "0.1.9"
@@ -23,29 +25,12 @@
                  [org.clojure/core.cache "0.7.2"]]
   :aliases {"kaocha" ["run" "-m" "kaocha.runner"]}
   :aot [jackdaw.serdes.edn2 jackdaw.serdes.fressian jackdaw.serdes.fn-impl]
-  :plugins [[me.arrdem/lein-git-version "2.0.8"]]
-  :git-version {:status-to-version (fn [{:keys [tag version branch ahead ahead? dirty?] :as git}]
-                                     (if (and tag (not ahead?) (not dirty?))
-                                       tag
-                                       (let [[_ prefix patch] (re-find #"(\d+\.\d+)\.(\d+)" tag)
-                                             patch (Long/parseLong patch)
-                                             patch+ (inc patch)
-                                             branch+ (-> branch
-                                                       (.replaceAll "[^a-zA-Z0-9]" "_"))]
-                                         (format "%s.%d-%s-SNAPSHOT" prefix patch+ branch+))))}
-
+  :deploy-repositories [["releases" {:url           "https://clojars.org/repo/"
+                                     :username      [:gpg :env/CLOJARS_USERNAME]
+                                     :password      [:gpg :env/CLOJARS_PASSWORD]
+                                     :sign-releases false}]]
   :profiles {;; Provide an alternative to :leiningen/default, used to include :shared
              :default [:base :system :user :shared :provided :dev]
-
-             ;; Define a profile intended to be shared by this project and its children
-             :shared  {:url                 "https://github.com/rentpath/jackdaw"
-                       :license             {:name "BSD 3-clause"
-                                             :url  "http://opensource.org/licenses/BSD-3-Clause"}
-                       :repositories        [["confluent" "https://packages.confluent.io/maven/"]]
-                       :deploy-repositories [["releases" {:url "https://clojars.org/repo/"
-                                                          :username [:gpg :env/CLOJARS_USERNAME]
-                                                          :password [:gpg :env/CLOJARS_PASSWORD]
-                                                          :sign-releases false}]]}
 
              ;; The dev profile - non-deployment configuration
              :dev     {:source-paths   ["dev"]
