@@ -30,7 +30,7 @@
                                      :password      [:gpg :env/CLOJARS_PASSWORD]
                                      :sign-releases false}]]
   :profiles {;; Provide an alternative to :leiningen/default, used to include :shared
-             :default [:base :system :user :shared :provided :dev]
+             :default [:base :system :user :provided :dev]
 
              ;; The dev profile - non-deployment configuration
              :dev     {:source-paths   ["dev"]
